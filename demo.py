@@ -12,6 +12,20 @@ from fast_track.detectors import get_detector
 from fast_track.trackers import get_tracker
 from fast_track.databases import SQLDatabase
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+with open("configs/config.yaml", "r") as f:
+    config = yaml.safe_load(f)
+
+from trackgpt import LangChainAnalyst
+analyst = LangChainAnalyst(
+    db_uri="sqlite:///gradio-demo.db",
+    system_message=config["system_message"]
+)
+
 
 def run_fast_track(input_video: str,
                    detector_type: str,
@@ -54,9 +68,6 @@ def run_fast_track(input_video: str,
     with Pipeline(camera=camera, detector=detector, tracker=tracker, database=database) as p:
         outfile = p.run()
     return outfile
-
-from track_gpt import OpenAIAnalyst
-analyst = OpenAIAnalyst(db_uri="sqlite:///gradio-demo.db")
 
 
 with gr.Blocks() as demo:
