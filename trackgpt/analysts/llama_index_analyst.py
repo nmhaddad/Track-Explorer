@@ -13,10 +13,10 @@ from llama_index.llms.openai import OpenAI
 
 from sqlalchemy import create_engine, MetaData       
 
-from .analyst import Analyst
+from .base_analyst import BaseAnalyst
 
 
-class LlamaIndexAnalyst(Analyst):
+class LlamaIndexAnalyst(BaseAnalyst):
     """ LlamaIndexAnalyst class.
     
     Attributes:

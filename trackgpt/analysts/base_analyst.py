@@ -1,14 +1,14 @@
-""" Analyst base class. """
+""" BaseAnalyst class. """
 
 from abc import ABCMeta, abstractmethod
 from typing import List, Optional
 
 
-class Analyst(metaclass=ABCMeta):
-    """ Base Analyst class. """
+class BaseAnalyst(metaclass=ABCMeta):
+    """ BaseAnalyst class. """
 
     def __init__(self):
-        """ Initializes Analyst objects. """
+        """ Initializes BaseAnalyst objects. """
 
     @abstractmethod
     def query_analyst(self, message: str, history: Optional[List[str]] = None) -> str:

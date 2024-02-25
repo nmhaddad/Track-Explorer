@@ -10,14 +10,14 @@ from langchain.schema import HumanMessage, SystemMessage
 from langchain.memory import ConversationBufferMemory
 from langchain.agents import AgentExecutor
 
-from .analyst import Analyst
+from .base_analyst import BaseAnalyst
 
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-class LangChainAnalyst(Analyst):
+class LangChainAnalyst(BaseAnalyst):
 
     def __init__(self,
                  db_uri: str,
@@ -40,7 +40,7 @@ class LangChainAnalyst(Analyst):
             verbose: Whether to print debug messages.
         """
         logger.info("LangChainAnalyst | Initializing")
-        super().__init__()
+        super().__init__(db_uri=db_uri)
 
         self.db_uri = db_uri
         self.model = model
