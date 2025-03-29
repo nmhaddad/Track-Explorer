@@ -6,7 +6,7 @@ Installable Python package for interacting with object tracking databases using 
 
 ## Installation:
 
-Package is installable with Python 3.9, and 3.10
+Package is installable with Python 3.10, 3.11, and 3.12
 
 1. `git clone <repo> && cd <repo>`
 1. `pip install .`

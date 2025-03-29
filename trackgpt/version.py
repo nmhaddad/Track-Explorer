@@ -1,4 +1,4 @@
-""" TrackGPT version information. """
+"""TrackGPT version information."""
 
 from importlib import metadata
 

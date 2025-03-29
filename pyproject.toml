@@ -17,3 +17,7 @@ fast-track = {git = "https://github.com/nmhaddad/fast-track.git"}
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
