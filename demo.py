@@ -6,6 +6,7 @@ import yaml
 from dotenv import load_dotenv
 from fast_track import Pipeline
 from fast_track.databases import SQLDatabase
+from langchain_openai import ChatOpenAI
 
 from trackgpt import LangChainAnalyst
 
@@ -18,7 +19,6 @@ with open("configs/rf-detr.yml", "r") as f:
 with open("configs/agent.yml", "r") as f:
     agent_config = yaml.safe_load(f)
 
-from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(
     model=agent_config["llm"]["model"],
