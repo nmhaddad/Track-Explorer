@@ -12,25 +12,20 @@ from trackgpt import LangChainAnalyst
 load_dotenv()
 
 
-with open("configs/config.yaml", "r") as f:
-    config = yaml.safe_load(f)
+with open("configs/rf-detr.yml", "r") as f:
+    pipeline_config = yaml.safe_load(f)
+
+with open("configs/agent.yml", "r") as f:
+    agent_config = yaml.safe_load(f)
 
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="gpt4-o", temperature=0.1, verbose=False)
-# from langchain_google_genai import ChatGoogleGenerativeAI
-
-# llm = ChatGoogleGenerativeAI(
-#     model="gemini-1.5-pro",
-#     temperature=0,
-#     max_tokens=None,
-#     timeout=None,
-#     max_retries=2,
-#     # other params...
-# )
-
-
-analyst = LangChainAnalyst(db_uri="sqlite:///gradio-demo.db", llm=llm, system_prompt=config["system_prompt"])
+llm = ChatOpenAI(
+    model=agent_config["llm"]["model"],
+    temperature=agent_config["llm"]["temperature"],
+    verbose=agent_config["llm"]["verbose"],
+)
+analyst = LangChainAnalyst(db_uri="sqlite:///gradio-demo.db", llm=llm, system_prompt=agent_config["system_prompt"])
 
 
 def run_fast_track(
@@ -49,10 +44,12 @@ def run_fast_track(
     from fast_track.detectors import RFDETR
     from fast_track.trackers import BYTETracker
 
-    detector = RFDETR(**config["detector"], names=config["names"])
-    tracker = BYTETracker(**config["tracker"], names=config["names"])
+    detector = RFDETR(**pipeline_config["detector"], names=pipeline_config["names"])
+    tracker = BYTETracker(**pipeline_config["tracker"], names=pipeline_config["names"])
 
-    database = SQLDatabase(db_uri="sqlite:///gradio-demo.db", class_names=config["names"], use_gpt4v_captions=True)
+    database = SQLDatabase(
+        db_uri="sqlite:///gradio-demo.db", class_names=pipeline_config["names"], use_gpt4v_captions=True
+    )
     with Pipeline(camera=camera, detector=detector, tracker=tracker, database=database) as p:
         outfile = p.run()
     return outfile
