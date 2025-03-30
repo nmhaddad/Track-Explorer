@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "track_explorer"
+version = "0.1.0"
+description = "LLM powered analysts for object tracking data"
+authors = ["Nathaniel Haddad <nhaddad2112@gmail.com>"]
+license = "LICENSE"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10, <3.13"
+python-dotenv = "^1.0.1"
+langchain = "^0.3.21"
+langchain_openai = "^0.3.11"
+langchain-community = "^0.3.20"
+llama-index = "^0.12.26"
+gradio = "^5.23.1"
+fast-track = {git = "https://github.com/nmhaddad/fast-track.git"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
