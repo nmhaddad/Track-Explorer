@@ -79,4 +79,4 @@ class LangChainAnalyst(BaseAnalyst):
             a text response from the analyst.
         """
         logger.info("query_analyst | Invoking agent executor")
-        return self.agent_executor.invoke(input=message, history=history)["output"]
+        return self.agent_executor.invoke(input=message)["output"]

@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "trackgpt"
+name = "track_explorer"
 version = "0.1.0"
-description = "GenAI for tracker databases"
+description = "LLM powered analysts for object tracking data"
 authors = ["Nathaniel Haddad <nhaddad2112@gmail.com>"]
 license = "LICENSE"
 readme = "README.md"

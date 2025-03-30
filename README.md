@@ -1,4 +1,4 @@
-# TrackGPT
+# TrackExplorer
 
 Installable Python package for interacting with object tracking databases using large language models (LLMs).
 
@@ -15,7 +15,9 @@ Package is installable with Python 3.10, 3.11, and 3.12
 
 ## Run the Demo
 
-Follow the installation instructions above, then install Gradio with `pip install .[gradio]`
+1. Follow the installation instructions above. 
+1. Install Gradio with `pip install .[gradio]`
+1. Install Fast-Track ByteTrack `pip install fast_track[bytetrack]`
 
 Finally, launch the app with `python app.py`
 

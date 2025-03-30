@@ -1,7 +1,7 @@
-# CHANGELOG for TrackGPT
+# CHANGELOG for TrackExplorer
 
 ## Known Issues:
 - None
 
 ## v0.1.0 - Nate Haddad, 2/21/2024
-- Add `trackgpt` package
+- Add `track_explorer` package

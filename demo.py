@@ -1,4 +1,4 @@
-"""Gradio application for trackgpt."""
+"""Gradio application for TrackExplorer."""
 
 import cv2
 import gradio as gr
@@ -9,10 +9,15 @@ from fast_track.databases import SQLDatabase
 from fast_track.detectors import RFDETR
 from fast_track.trackers import BYTETracker
 from langchain_openai import ChatOpenAI
-
-from trackgpt import LangChainAnalyst
+from track_explorer import LangChainAnalyst
 
 load_dotenv()
+
+# create logger to console
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 with open("configs/rf-detr.yml", "r") as f:
@@ -47,7 +52,9 @@ def run_fast_track(
     tracker = BYTETracker(**pipeline_config["tracker"], names=pipeline_config["names"])
 
     database = SQLDatabase(
-        db_uri="sqlite:///gradio-demo.db", class_names=pipeline_config["names"], use_gpt4v_captions=True
+        db_uri="sqlite:///gradio-demo.db",
+        class_names=pipeline_config["names"],
+        create_image_captions=pipeline_config["db"]["create_image_captions"],
     )
     with Pipeline(camera=camera, detector=detector, tracker=tracker, database=database) as p:
         outfile = p.run()
@@ -57,7 +64,7 @@ def run_fast_track(
 with gr.Blocks() as demo:
     gr.Markdown(
         """
-                # TrackGPT Demo 🚀
+                # TrackExplorer Demo 🚀
                 ### Upload a video and process it with a Fast-Track pipeline - then chat with an agent about what's been seen!
                 """
     )
@@ -76,7 +83,7 @@ with gr.Blocks() as demo:
             # ChatBox
             gr.ChatInterface(
                 analyst.query_analyst,
-                title="Chat with TrackGPT",
+                title="Chat with TrackExplorer",
                 type="messages",
             )
 
