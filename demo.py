@@ -6,6 +6,8 @@ import yaml
 from dotenv import load_dotenv
 from fast_track import Pipeline
 from fast_track.databases import SQLDatabase
+from fast_track.detectors import RFDETR
+from fast_track.trackers import BYTETracker
 from langchain_openai import ChatOpenAI
 
 from trackgpt import LangChainAnalyst
@@ -40,9 +42,6 @@ def run_fast_track(
         A path to an output video.
     """
     camera = cv2.VideoCapture(input_video)
-
-    from fast_track.detectors import RFDETR
-    from fast_track.trackers import BYTETracker
 
     detector = RFDETR(**pipeline_config["detector"], names=pipeline_config["names"])
     tracker = BYTETracker(**pipeline_config["tracker"], names=pipeline_config["names"])
