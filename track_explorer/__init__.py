@@ -1,4 +1,4 @@
-"""Initializes the track_gpt package."""
+"""Initializes the track_explorer package."""
 
 from .analysts import LangChainAnalyst
 from .version import __version__
