@@ -21,6 +21,7 @@ class LangChainAnalyst(BaseAnalyst):
         db_uri: str,
         llm: BaseLanguageModel,
         system_prompt: Optional[str] = None,
+        verbose: Optional[bool] = False,
     ):
         """Initializes LangChainAnalyst objects.
 
@@ -35,6 +36,7 @@ class LangChainAnalyst(BaseAnalyst):
         self.db_uri = db_uri
         self.llm = llm
         self.system_prompt = system_prompt
+        self.verbose = verbose
 
         self.db: SQLDatabase = None
         self.agent_executor: AgentExecutor = None
