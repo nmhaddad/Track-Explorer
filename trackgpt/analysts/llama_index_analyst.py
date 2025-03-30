@@ -1,17 +1,12 @@
-""" LlamaIndex Analyst """
+"""LlamaIndex Analyst"""
 
 from typing import List, Optional
 
-from llama_index.core import SQLDatabase, ServiceContext, VectorStoreIndex
+from llama_index.core import ServiceContext, SQLDatabase, VectorStoreIndex
 from llama_index.core.indices.struct_store.sql_query import SQLTableRetrieverQueryEngine
-from llama_index.core.objects import (
-    SQLTableNodeMapping,
-    SQLTableSchema,
-    ObjectIndex,
-)
+from llama_index.core.objects import ObjectIndex, SQLTableNodeMapping, SQLTableSchema
 from llama_index.llms.openai import OpenAI
-
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import MetaData, create_engine
 
 from .base_analyst import BaseAnalyst
 
@@ -28,14 +23,14 @@ class LlamaIndexAnalyst(BaseAnalyst):
             deterministic. If set to 0, the model will use log probability
             to automatically increase the temperature until certain thresholds
             are hit.
-        system_message: The system message to use for the analyst.
+        system_prompt: The system message to use for the analyst.
         verbose: Whether to print debug messages.
     """
 
     def __init__(
         self,
         db_uri: str,
-        system_message: str,
+        system_prompt: str,
         model: str = "gpt-3.5-turbo",
         temperature: float = 0.1,
         verbose: bool = False,
@@ -44,7 +39,7 @@ class LlamaIndexAnalyst(BaseAnalyst):
 
         Args:
             db_uri: The database URI.
-            system_message: The system message to use for the analyst.
+            system_prompt: The system message to use for the analyst.
             model: The model to use for the analyst.
             temperature: The sampling temperature, between 0 and 1.
                 Higher values like 0.8 will make the output more random,
@@ -59,7 +54,7 @@ class LlamaIndexAnalyst(BaseAnalyst):
         self.db_uri = db_uri
         self.model = model
         self.temperature = temperature
-        self.system_message = system_message
+        self.system_prompt = system_prompt
         self.verbose = verbose
 
         self.db: SQLDatabase = None

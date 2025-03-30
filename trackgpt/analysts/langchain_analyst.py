@@ -1,17 +1,15 @@
-""" LangChainAnalyst class. """
+"""LangChainAnalyst class."""
 
 import logging
 from typing import List, Optional
 
-from langchain.sql_database import SQLDatabase
-from langchain_community.agent_toolkits import create_sql_agent
-from langchain_openai import ChatOpenAI
-from langchain.schema import HumanMessage, SystemMessage
-from langchain.memory import ConversationBufferMemory
 from langchain.agents import AgentExecutor
+from langchain.memory import ConversationBufferMemory
+from langchain_community.agent_toolkits import create_sql_agent
+from langchain_community.utilities import SQLDatabase
+from langchain_openai import ChatOpenAI
 
 from .base_analyst import BaseAnalyst
-
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -23,7 +21,7 @@ class LangChainAnalyst(BaseAnalyst):
         db_uri: str,
         model: str = "gpt-3.5-turbo",
         temperature: float = 0,
-        system_message: Optional[str] = None,
+        system_prompt: Optional[str] = None,
         verbose: bool = False,
     ):
         """Initializes LangChainAnalyst objects.
@@ -37,16 +35,16 @@ class LangChainAnalyst(BaseAnalyst):
                 deterministic. If set to 0, the model will use log probability
                 to automatically increase the temperature until certain thresholds
                 are hit.
-            system_message: The system message to use for the analyst.
+            system_prompt: The system message to use for the analyst.
             verbose: Whether to print debug messages.
         """
         logger.info("LangChainAnalyst | Initializing")
-        super().__init__(db_uri=db_uri)
+        super().__init__()
 
         self.db_uri = db_uri
         self.model = model
         self.temperature = temperature
-        self.system_message = system_message
+        self.system_prompt = system_prompt
         self.verbose = verbose
 
         self.db: SQLDatabase = None
@@ -68,7 +66,7 @@ class LangChainAnalyst(BaseAnalyst):
             db=self.db,
             agent_type="openai-tools",
             verbose=self.verbose,
-            system_message=self.system_message,
+            system_prompt=self.system_prompt,
             memory=memory,
             # agent_type
         )

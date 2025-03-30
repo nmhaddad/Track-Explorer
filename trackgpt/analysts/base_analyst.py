@@ -1,4 +1,4 @@
-""" BaseAnalyst class. """
+"""BaseAnalyst class."""
 
 from abc import ABCMeta, abstractmethod
 from typing import List, Optional
@@ -20,7 +20,7 @@ class BaseAnalyst(metaclass=ABCMeta):
         https://medium.com/@manirajudutha16/building-a-chatbot-with-openai-and-adding-a-gui-with-tkinter-in-python-602c4a803bcc
         """
         import tkinter as tk
-        from tkinter import scrolledtext, END
+        from tkinter import END, scrolledtext
 
         # Function to display the chatbot response in the GUI
         def show_chatbot_response():
