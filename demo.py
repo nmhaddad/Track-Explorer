@@ -15,8 +15,22 @@ load_dotenv()
 with open("configs/config.yaml", "r") as f:
     config = yaml.safe_load(f)
 
+from langchain_openai import ChatOpenAI
 
-analyst = LangChainAnalyst(db_uri="sqlite:///gradio-demo.db", system_prompt=config["system_prompt"])
+llm = ChatOpenAI(model="gpt4-o", temperature=0.1, verbose=False)
+# from langchain_google_genai import ChatGoogleGenerativeAI
+
+# llm = ChatGoogleGenerativeAI(
+#     model="gemini-1.5-pro",
+#     temperature=0,
+#     max_tokens=None,
+#     timeout=None,
+#     max_retries=2,
+#     # other params...
+# )
+
+
+analyst = LangChainAnalyst(db_uri="sqlite:///gradio-demo.db", llm=llm, system_prompt=config["system_prompt"])
 
 
 def run_fast_track(
