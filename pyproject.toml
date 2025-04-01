@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "track_explorer"
-version = "0.1.0"
+version = "0.2.0"
 description = "LLM powered analysts for object tracking data"
 authors = ["Nathaniel Haddad <nhaddad2112@gmail.com>"]
 license = "LICENSE"

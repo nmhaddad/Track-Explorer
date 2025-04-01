@@ -27,6 +27,7 @@ db:
   db_uri: sqlite:///data/hainan.db
   create_image_captions: True
 
+
 names:
   1: "person"
   2: "bicycle"
