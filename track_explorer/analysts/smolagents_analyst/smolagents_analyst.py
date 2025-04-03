@@ -1,16 +1,13 @@
 """SmolAgentsAnalyst class."""
 
-import logging
 from typing import Any, Callable, Dict, Generator, List, Optional
 
 from smolagents import ChatMessage, CodeAgent, GradioUI, stream_to_gradio
 from sqlalchemy import Engine, create_engine, inspect
 
+from ...utils import logger
 from ..base_analyst import BaseAnalyst
 from .tools import sql_engine
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 
 
 class SmolAgentsAnalyst(BaseAnalyst):
