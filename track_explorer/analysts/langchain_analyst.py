@@ -1,6 +1,5 @@
 """LangChainAnalyst class."""
 
-import logging
 from typing import List, Optional
 
 from langchain.agents import AgentExecutor
@@ -9,10 +8,8 @@ from langchain.memory import ConversationBufferMemory
 from langchain_community.agent_toolkits import create_sql_agent
 from langchain_community.utilities import SQLDatabase
 
+from ..utils import logger
 from .base_analyst import BaseAnalyst
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 
 
 class LangChainAnalyst(BaseAnalyst):

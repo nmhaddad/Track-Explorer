@@ -1,16 +1,13 @@
 """SmolAgentsAnalyst class."""
 
-import logging
 from typing import Any, Callable, Dict, Generator, List, Optional
 
-from smolagents import ChatMessage, CodeAgent, stream_to_gradio
+from smolagents import ChatMessage, CodeAgent, GradioUI, stream_to_gradio
 from sqlalchemy import Engine, create_engine, inspect
 
+from ...utils import logger
 from ..base_analyst import BaseAnalyst
 from .tools import sql_engine
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 
 
 class SmolAgentsAnalyst(BaseAnalyst):
@@ -100,3 +97,15 @@ class SmolAgentsAnalyst(BaseAnalyst):
             new_messages.append(msg)
             yield new_messages
         yield new_messages
+
+    def launch(self) -> None:
+        """Launches the analyst."""
+        logger.info("launch | Launching SmolAgentsAnalyst")
+        if not self.initialized:
+            self._initialize()
+            self.initialized = True
+        gradio_ui = GradioUI(
+            agent=self.agent,
+        )
+        gradio_ui.launch()
+        logger.info("launch | SUCCESS")
