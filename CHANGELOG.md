@@ -1,4 +1,4 @@
-# CHANGELOG for TrackExplorer
+# CHANGELOG for Track-Explorer
 
 ## Known Issues:
 - None

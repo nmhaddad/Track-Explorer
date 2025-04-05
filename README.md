@@ -1,4 +1,4 @@
-# TrackExplorer
+# Track-Explorer
 
 Installable Python package for interacting with object tracking databases using large language models (LLMs).
 

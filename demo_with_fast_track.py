@@ -1,4 +1,4 @@
-"""Gradio application for TrackExplorer."""
+"""Gradio application for Track-Explorer."""
 
 import os
 
@@ -62,7 +62,7 @@ def run_fast_track(
 with gr.Blocks() as demo:
     gr.Markdown(
         """
-        # TrackExplorer Demo 🚀
+        # Track-Explorer Demo 🚀
         ### Upload a video and process it with a Fast-Track pipeline - then chat with an agent about what's been seen!
         """
     )
@@ -80,7 +80,7 @@ with gr.Blocks() as demo:
             # ChatBox
             gr.ChatInterface(
                 analyst.query_analyst,
-                title="Chat with TrackExplorer",
+                title="Chat with Track-Explorer",
                 type="messages",
             )
 
