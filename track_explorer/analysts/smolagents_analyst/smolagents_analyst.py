@@ -7,7 +7,7 @@ from sqlalchemy import Engine, create_engine, inspect
 
 from ...utils import logger
 from ..base_analyst import BaseAnalyst
-from .tools import sql_engine
+from .tools import generate_image_caption, sql_engine
 
 
 class SmolAgentsAnalyst(BaseAnalyst):
@@ -64,7 +64,7 @@ class SmolAgentsAnalyst(BaseAnalyst):
         sql_engine.description = updated_description
 
         self.agent = CodeAgent(
-            tools=[sql_engine],
+            tools=[sql_engine, generate_image_caption],
             model=self.llm,
             planning_interval=3,
             additional_authorized_imports=["pandas", "numpy", "scipy"],

@@ -1,4 +1,4 @@
-"""Gradio application for TrackExplorer."""
+"""Gradio application for Track-Explorer."""
 
 import os
 
