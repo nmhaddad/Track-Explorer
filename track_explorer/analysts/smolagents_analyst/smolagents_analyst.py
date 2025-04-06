@@ -78,7 +78,6 @@ class SmolAgentsAnalyst(BaseAnalyst):
             max_steps=20,
             planning_interval=3,
             additional_authorized_imports=["pandas", "numpy", "scipy", "pillow", "cv2, sqlalchemy"],
-            memory=True,
         )
         logger.info("_create_db_agent | SUCCESS")
 
