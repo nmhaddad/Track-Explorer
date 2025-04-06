@@ -7,6 +7,7 @@ from sqlalchemy import Engine, create_engine, inspect
 
 from ...utils import logger
 from ..base_analyst import BaseAnalyst
+from .retriever import RetrieverTool, get_documents_from_files
 from .tools import generate_image_caption, sql_engine
 
 
@@ -16,6 +17,7 @@ class SmolAgentsAnalyst(BaseAnalyst):
         db_uri: str,
         llm: Callable[[list[dict[str, str]]], ChatMessage],
         system_prompt: Optional[str] = None,
+        knowledge_base: Optional[List[Dict[str, str]]] = None,
     ):
         """Initializes SmolAgentsAnalyst objects.
 
@@ -23,12 +25,14 @@ class SmolAgentsAnalyst(BaseAnalyst):
             db_uri: The database URI.
             llm: The language model to use. Must be a BaseLanguageModel object.
             system_prompt: The system message to use for the analyst (overrides smolagent system prompt).
+            knowledge_base: Optional list of documents to initialize the retriever tool. This should be a list of dicts with 'text' and 'source' keys.
         """
         super().__init__()
 
         self.db_uri = db_uri
         self.llm = llm
         self.system_prompt = system_prompt
+        self.knowledge_base = knowledge_base if knowledge_base else []
 
         self.db = None
         self.agent = None
@@ -43,11 +47,13 @@ class SmolAgentsAnalyst(BaseAnalyst):
 
     def _create_agent(self) -> None:
         """Creates a smolagents database agent."""
-        logger.info("_create_db_agent | Initializing Memory")
+        logger.info("_create_agent | Initializing CodeAgent and Tools")
 
+        tools = [generate_image_caption]
+
+        # Text-to-SQL tool
         updated_description = """Allows you to perform SQL queries on the table. Beware that this tool's output is a string representation of the execution output.
         It can use the following tables:"""
-
         inspector = inspect(self.db)
         for table in inspector.get_table_names():
             columns_info = [(col["name"], col["type"]) for col in inspector.get_columns(table)]
@@ -58,16 +64,21 @@ class SmolAgentsAnalyst(BaseAnalyst):
                 [f"  - {name}: {col_type}" for name, col_type in columns_info]
             )
             updated_description += "\n\n" + table_description
-
-        print(updated_description)
-
         sql_engine.description = updated_description
+        tools.append(sql_engine)
+
+        # Agentic RAG tool
+        if self.knowledge_base:
+            retriever_tool = RetrieverTool(get_documents_from_files(knowledge_base=self.knowledge_base))
+            tools.append(retriever_tool)
 
         self.agent = CodeAgent(
-            tools=[sql_engine, generate_image_caption],
+            tools=tools,
             model=self.llm,
+            max_steps=20,
             planning_interval=3,
-            additional_authorized_imports=["pandas", "numpy", "scipy"],
+            additional_authorized_imports=["pandas", "numpy", "scipy", "pillow", "cv2, sqlalchemy"],
+            memory=True,
         )
         logger.info("_create_db_agent | SUCCESS")
 
@@ -108,4 +119,3 @@ class SmolAgentsAnalyst(BaseAnalyst):
             agent=self.agent,
         )
         gradio_ui.launch()
-        logger.info("launch | SUCCESS")
