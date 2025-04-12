@@ -8,7 +8,7 @@ from sqlalchemy import Engine, create_engine, inspect
 from ...utils import logger
 from ..base_analyst import BaseAnalyst
 from .retriever import RetrieverTool, get_documents_from_files
-from .tools import generate_image_caption, sql_engine
+from .tools import generate_image_caption, sql_engine, visual_question_answering
 
 
 class SmolAgentsAnalyst(BaseAnalyst):
@@ -49,7 +49,7 @@ class SmolAgentsAnalyst(BaseAnalyst):
         """Creates a smolagents database agent."""
         logger.info("_create_agent | Initializing CodeAgent and Tools")
 
-        tools = [generate_image_caption]
+        tools = [generate_image_caption, visual_question_answering]
 
         # Text-to-SQL tool
         updated_description = """Allows you to perform SQL queries on the table. Beware that this tool's output is a string representation of the execution output.

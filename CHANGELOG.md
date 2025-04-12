@@ -3,6 +3,9 @@
 ## Known Issues:
 - None
 
+## v0.3.0 - Nate Haddad, 4/12/2025
+- Adds `visual_question_answering` tool to `SmolAgentsAnalyst`
+
 ## v0.2.2 - Nate Haddad, 4/6/2025
 - Add Agentic RAG retriever tool to `SmolAgentsAnalyst`
 - Update `SmolAgentsAnalyst` to use memory, set `max_steps`
