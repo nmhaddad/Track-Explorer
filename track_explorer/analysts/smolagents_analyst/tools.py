@@ -61,3 +61,42 @@ def generate_image_caption(image_base64: str) -> str | None:
         return response.choices[0].message.content
     except Exception:
         return None
+
+
+@tool
+def visual_question_answering(prompt: str, image_base64: str) -> str | None:
+    """
+    Allows you to ask a question about specific details in a video frame or image. Use this tool sparingly, as it can
+    be slow and expensive.
+
+    Args:
+        prompt (str): The question to ask about the image.
+        image_base64 (str): The base64 encoded string representation of the image.
+    """
+    try:
+        client = OpenAI()
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": prompt,
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/jpeg;base64,{image_base64}",
+                                "detail": "low",
+                            },
+                        },
+                    ],
+                }
+            ],
+            max_tokens=300,
+        )
+        return response.choices[0].message.content
+    except Exception:
+        return None
